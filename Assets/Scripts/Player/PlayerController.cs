@@ -18,8 +18,6 @@ public class PlayerController : MonoBehaviour
     {
         // read the value for the "move" action each event call
         moveAmount = context.ReadValue<Vector2>();
-        //Debug.Log("x: " + moveAmount.x + ", " + "y: " + moveAmount.y);
-        
     }
 
     private void FixedUpdate()
