@@ -1,9 +1,11 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Security.Cryptography;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.TextCore.Text;
 
 public class PlayerController : MonoBehaviour
 {
@@ -21,6 +23,19 @@ public class PlayerController : MonoBehaviour
     {
         // read the value for the "move" action each event call
         moveAmount = context.ReadValue<Vector2>();
+    }
+
+    public void OnAttack(InputAction.CallbackContext value)
+    {
+        if (value.started)
+        {
+            Attack();
+        }
+    }
+
+    private void Attack()
+    {
+        animator.SetTrigger("Attack");
     }
 
     private void FixedUpdate()
