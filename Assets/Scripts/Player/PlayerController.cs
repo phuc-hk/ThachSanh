@@ -23,6 +23,10 @@ public class PlayerController : MonoBehaviour
     private Animator animator;
     private PlayerState currentState;
 
+    [SerializeField] WeaponSO defaultWeapon;
+    WeaponSO currentWeapon;
+    //GameObject equiptWeapon;
+
     private void Awake()
     {
         playerRigidbody = GetComponent<Rigidbody2D>();
@@ -32,6 +36,17 @@ public class PlayerController : MonoBehaviour
     private void Start()
     {
         currentState = PlayerState.idle;
+        if (currentWeapon == null)
+        {
+            EquipWeapon(defaultWeapon);
+        }
+    }
+
+    public void EquipWeapon(WeaponSO weapon)
+    {
+        currentWeapon = weapon;
+        Animator animator = GetComponent<Animator>();
+        weapon.Spawn(animator);
     }
 
     public void OnMove(InputAction.CallbackContext context)
