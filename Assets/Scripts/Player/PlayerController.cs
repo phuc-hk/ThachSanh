@@ -12,7 +12,8 @@ public enum PlayerState
 {
     idle,
     attack,
-    interact
+    interact,
+    push
 }
 
 public class PlayerController : MonoBehaviour
@@ -90,7 +91,7 @@ public class PlayerController : MonoBehaviour
 
     private void UpdateAnimation()
     {
-        if (moveAmount != Vector2.zero)
+        if (moveAmount != Vector2.zero && currentState == PlayerState.idle)
         {
             animator.SetBool("Walk", true);
             animator.SetFloat("MoveX", moveAmount.x);
@@ -102,5 +103,32 @@ public class PlayerController : MonoBehaviour
         }    
        
     }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("Pushable"))
+        {
+            currentState = PlayerState.push;
+            animator.SetBool("Pushed", true);          
+        }
+    }
+
+    private void OnCollisionStay2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("Pushable"))
+        {
+            //currentState = PlayerState.push;
+            //animator.SetTrigger("Push");
+            //animator.SetBool("Pushed", true);
+            Move();
+        }
+    }
+
+    private void OnCollisionExit2D(Collision2D collision)
+    {
+        animator.SetBool("Pushed", false);
+        StartCoroutine(ResetAttack());
+    }
+
 }
 
